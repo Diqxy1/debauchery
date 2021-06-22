@@ -1,8 +1,14 @@
 from rest_framework import generics
 from rest_framework.generics import get_object_or_404
+# import from api-v2
+from rest_framework import viewsets
 
-from .models import Coach, Evaluation
-from .serializers import CoachSerializer, EvaluationSerializer
+from .models import Coach, Assessment
+from .serializers import CoachSerializer, AssessmentSerializer
+
+"""
+API V1
+"""
 
 
 class CoachsAPIView(generics.ListCreateAPIView):
@@ -15,9 +21,9 @@ class CoachAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = CoachSerializer
 
 
-class EvaluationsAPIView(generics.ListCreateAPIView):
-    queryset = Evaluation.objects.all()
-    serializer_class = EvaluationSerializer
+class AssessmentsAPIView(generics.ListCreateAPIView):
+    queryset = Assessment.objects.all()
+    serializer_class = AssessmentSerializer
 
     def get_queryset(self):
         if self.kwargs.get('coach_pk'):
@@ -25,13 +31,13 @@ class EvaluationsAPIView(generics.ListCreateAPIView):
         return self.queryset.all()
 
 
-class EvaluationAPIView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Evaluation.objects.all()
-    serializer_class = EvaluationSerializer
+class AssessmentAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Assessment.objects.all()
+    serializer_class = AssessmentSerializer
 
     def get_object(self):
         if self.kwargs.get('coach_pk'):
             return get_object_or_404(self.get_queryset(),
                                      curso_id=self.kwargs.get('coach_pk'),
-                                     pk=self.kwargs.get('evaluation_pk'))
-        return get_object_or_404(self.get_queryset(), pk=self.kwargs.get('evaluation_pk'))
+                                     pk=self.kwargs.get('assessment_pk'))
+        return get_object_or_404(self.get_queryset(), pk=self.kwargs.get('assessment_pk'))

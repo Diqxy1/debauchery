@@ -23,12 +23,12 @@ class Coach(Base):
         return self.title
 
 
-class Evaluation(Base):
+class Assessment(Base):
     coach = models.ForeignKey(Coach, related_name='avaliacoes', on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     email = models.EmailField()
     comment = models.TextField(blank=True, default='')
-    evaluation = models.DecimalField(max_digits=2, decimal_places=1)
+    valuation = models.DecimalField(max_digits=2, decimal_places=1)
 
     class Meta:
         verbose_name = 'Avaliação',
@@ -36,4 +36,4 @@ class Evaluation(Base):
         unique_together = ['email', 'coach']
 
     def __str__(self):
-        return f'{self.name} avaliou o curso {self.coach} com nota {self.evaluation}'
+        return f'{self.name} avaliou o curso {self.coach} com nota {self.valuation}'

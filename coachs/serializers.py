@@ -1,21 +1,21 @@
 from rest_framework import serializers
 
-from .models import Coach, Evaluation
+from .models import Coach, Assessment
 
 
-class EvaluationSerializer(serializers.ModelSerializer):
+class AssessmentSerializer(serializers.ModelSerializer):
     class Meta:
         extra_kwargs = {
             'email': {'write_only': True}
         }
-        model = Evaluation
+        model = Assessment
         fields = (
             'id',
             'coach',
             'name',
             'email',
             'comment',
-            'evaluation',
+            'valuation',
             'created_at',
             'updated_at'
         )
