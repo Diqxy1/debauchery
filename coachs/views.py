@@ -5,9 +5,11 @@ from rest_framework import mixins
 
 from .models import Coach, Review
 from .serializers import CoachSerializer, ReviewSerializer
+from .permissions import OnlyAdmin
 
 
 class CoachViewSet(viewsets.ModelViewSet):
+    permission_classes = OnlyAdmin
     queryset = Coach.objects.all()
     serializer_class = CoachSerializer
 
