@@ -1,43 +1,27 @@
-from rest_framework import generics
-from rest_framework.generics import get_object_or_404
-# import from api-v2
 from rest_framework import viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from rest_framework import mixins
 
-from .models import Coach, Assessment
-from .serializers import CoachSerializer, AssessmentSerializer
-
-"""
-API V1
-"""
+from .models import Coach, Review
+from .serializers import CoachSerializer, ReviewSerializer
 
 
-class CoachsAPIView(generics.ListCreateAPIView):
+class CoachViewSet(viewsets.ModelViewSet):
     queryset = Coach.objects.all()
     serializer_class = CoachSerializer
 
-
-class CoachAPIView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Coach.objects.all()
-    serializer_class = CoachSerializer
-
-
-class AssessmentsAPIView(generics.ListCreateAPIView):
-    queryset = Assessment.objects.all()
-    serializer_class = AssessmentSerializer
-
-    def get_queryset(self):
-        if self.kwargs.get('coach_pk'):
-            return self.queryset.filter(coach_id=self.kwargs.get('coach_pk'))
-        return self.queryset.all()
+    @action(detail=True, methods=['get'])
+    def reviews(self, request, pk=None):
+        coach = self.get_object()
+        serializer = ReviewSerializer(coach.avaliacoes.all(), many=True)
+        return Response(serializer.data)
 
 
-class AssessmentAPIView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Assessment.objects.all()
-    serializer_class = AssessmentSerializer
-
-    def get_object(self):
-        if self.kwargs.get('coach_pk'):
-            return get_object_or_404(self.get_queryset(),
-                                     curso_id=self.kwargs.get('coach_pk'),
-                                     pk=self.kwargs.get('assessment_pk'))
-        return get_object_or_404(self.get_queryset(), pk=self.kwargs.get('assessment_pk'))
+class ReviewViewSet(mixins.CreateModelMixin,
+                    mixins.RetrieveModelMixin,
+                    mixins.UpdateModelMixin,
+                    mixins.DestroyModelMixin,
+                    viewsets.GenericViewSet):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
