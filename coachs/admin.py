@@ -5,7 +5,7 @@ from .models import Coach, Evaluation
 
 @admin.register(Coach)
 class CoachAdmin(admin.ModelAdmin):
-    list_display = ('title', 'url', 'created_at', 'updated_at', 'is_active')
+    list_display = ('title', 'description', 'url', 'created_at', 'updated_at', 'is_active')
 
 
 @admin.register(Evaluation)
