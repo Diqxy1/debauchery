@@ -1,14 +1,14 @@
 from rest_framework import serializers
 
-from .models import Coach, Assessment
+from .models import Coach, Review
 
 
-class AssessmentSerializer(serializers.ModelSerializer):
+class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         extra_kwargs = {
             'email': {'write_only': True}
         }
-        model = Assessment
+        model = Review
         fields = (
             'id',
             'coach',
@@ -22,6 +22,8 @@ class AssessmentSerializer(serializers.ModelSerializer):
 
 
 class CoachSerializer(serializers.ModelSerializer):
+    reviews = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='review-detail')
+
     class Meta:
         model = Coach
         fields = (
@@ -31,5 +33,6 @@ class CoachSerializer(serializers.ModelSerializer):
             'url',
             'created_at',
             'updated_at',
-            'is_active'
+            'is_active',
+            'reviews'
         )
