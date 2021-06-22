@@ -23,8 +23,8 @@ class Coach(Base):
         return self.title
 
 
-class Assessment(Base):
-    coach = models.ForeignKey(Coach, related_name='avaliacoes', on_delete=models.CASCADE)
+class Review(Base):
+    coach = models.ForeignKey(Coach, related_name='reviews', on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     email = models.EmailField()
     comment = models.TextField(blank=True, default='')
