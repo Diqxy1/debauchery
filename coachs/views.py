@@ -13,8 +13,13 @@ class CoachViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['get'])
     def reviews(self, request, pk=None):
-        coach = self.get_object()
-        serializer = ReviewSerializer(coach.avaliacoes.all(), many=True)
+        self.pagination_class.page_size = 1
+        reviews = Review.objects.filter(coach_id=pk)
+        page = self.paginate_queryset(reviews)
+        if page is not None:
+            serializer = ReviewSerializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        serializer = ReviewSerializer(reviews, many=True)
         return Response(serializer.data)
 
 
