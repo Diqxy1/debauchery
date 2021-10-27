@@ -3,12 +3,12 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-from coachs.urls import router
+from .api_routes import routes
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('auth/', include('accounts.urls')),
-    path('api/v2/', include(router.urls)),
+    path('api/v2/', include(routes)),
+    path('api-auth/', include('rest_framework.urls'))
 ]
 
 if settings.DEBUG:

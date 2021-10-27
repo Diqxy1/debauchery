@@ -1,9 +1,27 @@
+from django.db.models import fields
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import  serializers
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
 
-from .models import User
+from apps.accounts.models import User
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username', 'password', 'email')
+        # extra_kwargs = {
+        #     'password': {
+        #         'write_only': True
+        #         }
+        #     }
+
+
+class UserDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['username', 'email']
 
 
 class RegisterSerializer(serializers.ModelSerializer):

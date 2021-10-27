@@ -1,16 +1,16 @@
 from rest_framework import viewsets
-from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import action, permission_classes
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework import mixins
 
-from accounts.permissions import IsOwner
-from .models import Coach, Review
+from apps.accounts.permissions import IsOwner
+from apps.coachs.models import Coach, Review
 from .serializers import CoachSerializer, ReviewSerializer
 
 
 class CoachViewSet(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated, IsOwner)
+    permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = Coach.objects.all()
     serializer_class = CoachSerializer
 

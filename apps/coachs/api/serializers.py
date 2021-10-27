@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Coach, Review
+from apps.coachs.models import Coach, Review
 
 
 class ReviewSerializer(serializers.ModelSerializer):
